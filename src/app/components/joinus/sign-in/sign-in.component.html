@@ -1,0 +1,67 @@
+<div class="container">
+  <form
+    class="col-md-6 offset-md-3 my-5"
+    [formGroup]="formgroup1"
+    (ngSubmit)="handleLogin()"
+  >
+    <div class="form-group my-3">
+      <label for="exampleInputEmail1">Email address</label>
+      <input
+        type="email"
+        required
+        class="form-control"
+        id="exampleInputEmail1"
+        aria-describedby="emailHelp"
+        placeholder="Enter email"
+        formControlName="email"
+        [ngClass]="{
+          'is-invalid': (email?.touched || email?.dirty) && email?.invalid
+        }"
+      />
+      <span class="invalid-feedback">
+        @if(email?.errors?.['required']){
+        <span>Email is required</span>
+        } @if(email?.errors?.['email']){
+        <span>This is not valid email</span>
+        }
+      </span>
+      <small id="emailHelp" class="form-text text-muted"
+        >We'll never share your email with anyone else.</small
+      >
+    </div>
+    <div class="form-group my-3">
+      <label for="exampleInputPassword1">Password</label>
+      <input
+        type="password"
+        required
+        class="form-control"
+        id="exampleInputPassword1"
+        placeholder="Password"
+        formControlName="password"
+        [ngClass]="{
+          'is-invalid':
+            (password?.touched || password?.dirty) && password?.invalid
+        }"
+      />
+      <span class="invalid-feedback">
+        @if(password?.errors?.['required']){
+        <span>Password is required</span>
+        } @if(password?.errors?.['minlength']){
+        <span>This password at least 8 characters</span>
+        }
+      </span>
+    </div>
+    <div class="form-group form-check my-3">
+      <input type="checkbox" class="form-check-input" id="exampleCheck1" />
+      <label class="form-check-label" for="exampleCheck1">Check me out</label>
+    </div>
+    <div class="form-row">
+      <a class="form-input col-3 align-right" routerLink="/join/signup"
+        >Don't have account?</a
+      >
+      <button type="submit" class="btn btn-primary offset-6 col-3">
+        Submit
+      </button>
+    </div>
+  </form>
+</div>
