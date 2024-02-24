@@ -1,0 +1,213 @@
+<!-- <button class="btn btn-primary p-3" (click)="addUser()">Add User</button> -->
+<div class="container my-5">
+  <div class="row">
+    <div class="col-md-6 offset-md-3">
+      <h2>Sign Up Form</h2>
+      <form
+        #signUpForm="ngForm"
+        (ngSubmit)="addUser()"
+        [formGroup]="formGroup1"
+      >
+        <div class="form-group my-3">
+          <label for="firstName">First Name:</label>
+          <input
+            type="text"
+            required
+            class="form-control py-2"
+            id="firstName"
+            minlength="3"
+            pattern="[A-Za-z]{3,}"
+            placeholder="Enter First Name"
+            name="firstName"
+            formControlName="firstName"
+            [ngClass]="{
+              'is-invalid':
+                (firstName?.dirty || firstName?.touched) && firstName?.invalid
+            }"
+          />
+          <span class="invalid-feedback">
+            @if(firstName?.errors?.['required']){
+            <span>First Name is required</span>
+            } @if(firstName?.errors?.['minlength']){
+            <span>First Name at least 3 letters</span>
+            }@if(firstName?.errors?.['pattern']){
+            <span>First Name at least 3 letters</span>
+            }
+          </span>
+        </div>
+        <div class="form-group my-3">
+          <label for="lastName">Last Name:</label>
+          <input
+            type="text"
+            class="form-control py-2"
+            id="lastName"
+            required
+            pattern="[A-Za-z]{3,}"
+            name="lastName"
+            placeholder="Enter Last Name"
+            formControlName="lastName"
+            [(ngModel)]="user.lastName"
+            [ngClass]="{
+              'is-invalid':
+                (lastName?.dirty || lastName?.touched) && !lastName?.valid
+            }"
+          />
+          <span class="invalid-feedback">
+            @if(lastName?.errors?.['required']){
+            <span>First Name is required</span>
+            } @if(lastName?.errors?.['minlength']){
+            <span>Last Name at least 3 letters</span>
+            }@if(lastName?.errors?.['pattern']){
+            <span>Last Name at least 3 letters</span>
+            }
+          </span>
+        </div>
+        <div class="form-group my-3">
+          <label for="email">Email Address:</label>
+          <input
+            type="email"
+            name="email"
+            class="form-control py-2"
+            id="email"
+            required
+            pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}"
+            placeholder="Enter Email"
+            [ngClass]="{
+              'is-invalid': (email?.dirty || email?.touched) && !email?.valid
+            }"
+          />
+          <span class="invalid-feedback">
+            @if(email?.errors?.['required']){
+            <span>Email is required</span>
+            } @if(email?.errors?.['pattern']){
+            <span>This email must match the patten </span>
+            }@if(email?.errors?.['email']){
+            <span>This is not valid email</span>
+            }
+          </span>
+        </div>
+        <div formArrayName="address">
+          @for(control of address.controls; track $index){
+          <div [formGroupName]="$index">
+            <div class="form-group row my-3">
+              <div class="col-md-6">
+                <label for="city">City:</label>
+                <input
+                  type="text"
+                  name="city"
+                  class="form-control py-2"
+                  id="city"
+                  required
+                  minlength="3"
+                  placeholder="City"
+                  formControlName="city"
+                />
+              </div>
+              <div class="col-md-6">
+                <label for="postalCode">Postal Code: </label>
+                <input
+                  type="text"
+                  name="postalCode"
+                  class="form-control py-2"
+                  id="postalCode"
+                  required
+                  pattern="\d{5}"
+                  formControlName="postalCode"
+                  placeholder="Postal Code"
+                />
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-8">
+                <label for="street">Street: </label>
+                <input
+                  type="text"
+                  name="street"
+                  class="form-control py-2"
+                  id="street"
+                  required
+                  minlength="10"
+                  formControlName="street"
+                  placeholder="street"
+                />
+              </div>
+              <div class="col-4">
+                <label>Remove Addres: </label>
+                <button
+                  class="btn btn-danger py-2 w-100"
+                  (click)="removeAddress($index)"
+                >
+                  Remove Address
+                </button>
+              </div>
+            </div>
+          </div>
+
+          }
+        </div>
+
+        <div class="row my-2">
+          <div class="offset-4 col-4">
+            <button class="btn btn-primary py-2 w-100" (click)="addAddress()">
+              Add new address
+            </button>
+          </div>
+        </div>
+        <div formArrayName="phone">
+          @for(control of phone.controls; track $index){
+          <div [formGroupName]="$index" class="row">
+            <label for="phone">Phone:</label>
+            <div class="form-group col-6 my-3">
+              <input
+                type="text"
+                name="phone"
+                class="form-control py-2"
+                id="phone"
+                required
+                pattern="(01[0-2]|015)(\d{8})"
+                minlength="3"
+                placeholder="Phone"
+                formControlName="phone"
+              />
+            </div>
+            <label>Remove Phone: </label>
+            <div class="col-6">
+              <button
+                class="btn btn-danger py-2 form-control"
+                (click)="removePhone($index)"
+              >
+                Remove Phone
+              </button>
+            </div>
+          </div>
+
+          }
+        </div>
+        <div class="row my-2">
+          <div class="offset-4 col-4">
+            <button class="btn btn-primary py-2 w-100" (click)="addPhone()">
+              Add new phone
+            </button>
+          </div>
+        </div>
+        <div class="form-row">
+          @if(!signUpForm.valid){<span class="invalid-feedback"
+            >there is invalid values</span
+          >}
+          <span class="invalid-feedback">there is invalid values</span>
+          <button
+            type="submit"
+            class="btn btn-success py-2 col-3"
+            [disabled]="formGroup1.invalid"
+          >
+            Submit
+          </button>
+
+          <a class="form-input offset-md-6 col-3" routerLink="/join/login"
+            >Already have account?</a
+          >
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

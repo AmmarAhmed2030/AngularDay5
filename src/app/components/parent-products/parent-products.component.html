@@ -1,0 +1,17 @@
+<div>
+  <select
+    [(ngModel)]="selectedRange"
+    class="form-select"
+    aria-label="Default select example"
+  >
+    <option selected [value]="">All Prices</option>
+    <option [value]="0">From 0 To 30EGP</option>
+    <option [value]="30">From 30EGP To 60EGP</option>
+    <option [value]="60">From 60EGP To 90EGP</option>
+    <option [value]="90">More Than 90EGP</option>
+  </select>
+</div>
+<app-products
+  [rangePrice]="selectedRange"
+  (addChildrenEvent)="addToCart($event)"
+></app-products>

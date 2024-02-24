@@ -1,0 +1,36 @@
+<div class="row">
+  <div class="card col-3 m-2">
+    <img
+      class="card-img-top"
+      [src]="singleProduct?.image"
+      alt="Card image cap"
+      height="200px"
+    />
+    <div class="card-body">
+      <h5 class="card-title">{{ singleProduct?.title }}</h5>
+
+      <div class="row">
+        <span class="col-6">Name : {{ singleProduct?.name }}</span>
+        <span class="col-6" appTexthighlight=""
+          >Price : {{ singleProduct?.price | currency : "EGP" : "code" }}</span
+        >
+      </div>
+
+      <div class="row py-2">
+        <span class="col-6" [class.lessQuantity]="singleProduct?.quantity == 1"
+          >Quantity : {{ singleProduct?.quantity }}</span
+        >
+      </div>
+      <div class="row py2">
+        <button
+          class="btn btn-primary"
+          (click)="(goBack)"
+          [routerLink]="['/products']"
+          routerLinkActive="router-link-active"
+        >
+          GoBack
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
